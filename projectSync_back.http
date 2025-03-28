@@ -1,0 +1,6 @@
+@projectSync_back_HostAddress = http://localhost:5197
+
+GET {{projectSync_back_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
