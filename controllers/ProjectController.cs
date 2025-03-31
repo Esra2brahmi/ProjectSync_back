@@ -7,6 +7,8 @@ using projectSync_back.data;
 using projectSync_back.Dtos.Project;
 using projectSync_back.Models;
 using projectSync_back.Mappers;
+using Microsoft.EntityFrameworkCore;
+using projectSync_back.Interfaces;
 
 namespace projectSync_back.Controllers
 {
@@ -21,32 +23,39 @@ namespace projectSync_back.Controllers
             return NoContent(); 
         }
 
-        private readonly ApplicationDBContext _context;
-        public ProjectController(ApplicationDBContext context)
+        private readonly IProjectRepository _projectRepo;
+        public ProjectController(ApplicationDBContext context,IProjectRepository projectRepo)
         {
-            _context = context;
+           _projectRepo=projectRepo;
         }
 
         [HttpGet]
-        public IActionResult GetAll()
+        public async Task<IActionResult> GetAll()
         {
-            var projects = _context.Projects.ToList();
+            if(!ModelState.IsValid){
+                return BadRequest(ModelState);
+            }
+            var projects = await _projectRepo.GetAllAsync();
+            var projectDto=projects.Select(s=>s.ToProjectDto());
             return Ok(projects);
         }
 
-        [HttpGet("{id}")]
-        public IActionResult GetById([FromRoute] int id)
+        [HttpGet("{id:int}")]
+        public async Task<IActionResult> GetById([FromRoute] int id)
         {
-            var project = _context.Projects.Find(id);
+            if(!ModelState.IsValid){
+                return BadRequest(ModelState);
+            }
+            var project =await _projectRepo.GetByIdAsync(id);
             if (project == null)
             {
                 return NotFound();
             }
-            return Ok(project);
+            return Ok(project.ToProjectDto());
         }
 
         [HttpPost]
-        public IActionResult Create([FromBody] CreateProjectRequestDto projectDto)
+        public async Task<IActionResult> Create([FromBody] CreateProjectRequestDto projectDto)
         {
             // Validate the DTO
             if (!ModelState.IsValid)
@@ -59,11 +68,40 @@ namespace projectSync_back.Controllers
             projectDto.EndDate = projectDto.EndDate.ToUniversalTime();
 
             var projectModel = projectDto.ToProjectFromCreateDto();
-            _context.Projects.Add(projectModel);
-            _context.SaveChanges();
+            await _projectRepo.CreateAsync(projectModel);
             
             // Return the created project with its ID
             return CreatedAtAction(nameof(GetById), new { id = projectModel.Id }, projectModel);
         }
+
+        [HttpPut]
+        [Route("{id:int}")]
+        public async Task<IActionResult> Update([FromRoute] int id, [FromBody] UpdateProjectRequestDto updateDto){
+            if(!ModelState.IsValid){
+                return BadRequest(ModelState);
+            }
+            var projectModel= await _projectRepo.UpdateAsync(id,updateDto);
+            if(projectModel == null){
+                return NotFound();
+            }
+
+            return Ok(projectModel.ToProjectDto());
+
+        }
+
+        [HttpDelete]
+        [Route("{id:int}")]
+        public async Task<IActionResult> Delete([FromRoute] int id){
+            if(!ModelState.IsValid){
+                return BadRequest(ModelState);
+            }
+            var projectModel=await _projectRepo.DeleteAsync(id);
+
+            if(projectModel==null){
+                return NotFound();
+            }
+            return NoContent();
+        }
+
     }
 }

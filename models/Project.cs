@@ -29,6 +29,8 @@ namespace projectSync_back.Models
         [StringLength(100, ErrorMessage = "Supervisor last name can't be longer than 100 characters.")]
         public required string SupervisorLastName { get; set; }
 
+        public List<ProjectTask> ProjectTasks {get;set;} = new List<ProjectTask>();
+
         // Optionally, you can add a full name property (this can be helpful in some cases)
         public string SupervisorFullName => $"{SupervisorFirstName} {SupervisorLastName}";
 

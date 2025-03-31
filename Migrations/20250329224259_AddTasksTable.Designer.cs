@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using projectSync_back.data;
@@ -11,9 +12,11 @@ using projectSync_back.data;
 namespace projectSync_back.Migrations
 {
     [DbContext(typeof(ApplicationDBContext))]
-    partial class ApplicationDBContextModelSnapshot : ModelSnapshot
+    [Migration("20250329224259_AddTasksTable")]
+    partial class AddTasksTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -71,9 +74,6 @@ namespace projectSync_back.Migrations
                     b.Property<DateTime>("DueDate")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<int?>("ProjectId")
-                        .HasColumnType("integer");
-
                     b.Property<string>("TaskDescription")
                         .IsRequired()
                         .HasMaxLength(500)
@@ -86,23 +86,7 @@ namespace projectSync_back.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ProjectId");
-
                     b.ToTable("Tasks");
-                });
-
-            modelBuilder.Entity("projectSync_back.Models.ProjectTask", b =>
-                {
-                    b.HasOne("projectSync_back.Models.Project", "Project")
-                        .WithMany("ProjectTasks")
-                        .HasForeignKey("ProjectId");
-
-                    b.Navigation("Project");
-                });
-
-            modelBuilder.Entity("projectSync_back.Models.Project", b =>
-                {
-                    b.Navigation("ProjectTasks");
                 });
 #pragma warning restore 612, 618
         }

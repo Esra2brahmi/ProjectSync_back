@@ -17,7 +17,8 @@ namespace projectSync_back.Mappers
                 SupervisorLastName = projectModel.SupervisorLastName,
                 Status =projectModel.Status,
                 StartDate =projectModel.StartDate,
-                EndDate =projectModel.EndDate
+                EndDate =projectModel.EndDate,
+                Tasks=projectModel.ProjectTasks.Select(c=>c.ToTaskDto()).ToList()
             };
             
         }
