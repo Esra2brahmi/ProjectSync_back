@@ -11,6 +11,7 @@ namespace projectSync_back.Interfaces
     {
         Task<List<ProjectTask>> GetAllAsync();
         Task<ProjectTask?> GetByIdAsync(int id);
+        Task<List<ProjectTask>>GetByProjectIdAsync(int projectId);
         Task<ProjectTask> CreateAsync(ProjectTask taskModel);
         Task<ProjectTask?> UpdateAsync(int id,ProjectTask taskModel);
         Task<ProjectTask?> DeleteAsync(int id);

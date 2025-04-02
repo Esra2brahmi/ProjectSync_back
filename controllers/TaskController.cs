@@ -48,6 +48,25 @@ namespace projectSync_back.Controllers
             return Ok(task.ToTaskDto());
         }
 
+        [HttpGet("byProject/{projectId}")]
+        public async Task<IActionResult> GetByProjectId([FromRoute] int projectId)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var tasks = await _taskRepo.GetByProjectIdAsync(projectId);
+            
+            if (tasks == null || tasks.Count == 0)
+            {
+                return NotFound();
+            }
+
+            return Ok(tasks.Select(t => t.ToTaskDto()));
+        }
+
+
         [HttpPost("{projectId:int}")]
         public async Task<IActionResult> Create([FromRoute] int projectId,CreateTaskRequestDto taskDto)
         {

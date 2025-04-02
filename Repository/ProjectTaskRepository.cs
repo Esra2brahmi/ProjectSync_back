@@ -46,6 +46,13 @@ namespace projectSync_back.Repository
             return await _context.Tasks.FindAsync(id);
         }
 
+        public async Task<List<ProjectTask>> GetByProjectIdAsync(int projectId)
+        {
+             return await _context.Tasks
+                                  .Where(t => t.ProjectId == projectId)
+                                  .ToListAsync();
+        }
+
         public async Task<ProjectTask?> UpdateAsync(int id, ProjectTask taskModel)
         {
             var existingTask=await _context.Tasks.FindAsync(id);
