@@ -65,6 +65,7 @@ namespace projectSync_back.Repository
             existingProject.EndDate=projectDto.EndDate;
             existingProject.StartDate=projectDto.StartDate;
             existingProject.Status=projectDto.Status;
+            existingProject.Department=projectDto.Department;
 
             await _context.SaveChangesAsync();
 

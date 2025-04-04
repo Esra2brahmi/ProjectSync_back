@@ -16,6 +16,7 @@ namespace projectSync_back.Mappers
                 SupervisorFirstName = projectModel.SupervisorFirstName,
                 SupervisorLastName = projectModel.SupervisorLastName,
                 Status =projectModel.Status,
+                Department =projectModel.Department,
                 StartDate =projectModel.StartDate,
                 EndDate =projectModel.EndDate,
                 Tasks=projectModel.ProjectTasks.Select(c=>c.ToTaskDto()).ToList()
@@ -28,6 +29,7 @@ namespace projectSync_back.Mappers
                 SupervisorFirstName = projectDto.SupervisorFirstName,
                 SupervisorLastName = projectDto.SupervisorLastName,
                 Status =projectDto.Status,
+                Department =projectDto.Department,
                 StartDate =projectDto.StartDate,
                 EndDate =projectDto.EndDate
             };
