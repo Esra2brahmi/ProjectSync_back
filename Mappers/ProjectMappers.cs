@@ -17,6 +17,7 @@ namespace projectSync_back.Mappers
                 SupervisorLastName = projectModel.SupervisorLastName,
                 Status =projectModel.Status,
                 Department =projectModel.Department,
+                Level =projectModel.Level,
                 StartDate =projectModel.StartDate,
                 EndDate =projectModel.EndDate,
                 Tasks=projectModel.ProjectTasks.Select(c=>c.ToTaskDto()).ToList()
@@ -30,6 +31,7 @@ namespace projectSync_back.Mappers
                 SupervisorLastName = projectDto.SupervisorLastName,
                 Status =projectDto.Status,
                 Department =projectDto.Department,
+                Level =projectDto.Level,
                 StartDate =projectDto.StartDate,
                 EndDate =projectDto.EndDate
             };
