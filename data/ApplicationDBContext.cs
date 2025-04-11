@@ -17,6 +17,7 @@ namespace projectSync_back.data
 
         public DbSet<Project> Projects {get;set;}
         public DbSet<ProjectTask> Tasks { get; set; }
+        public DbSet<Attachment> Attachments { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

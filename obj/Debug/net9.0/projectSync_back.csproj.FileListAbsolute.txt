@@ -144,3 +144,5 @@
 /home/esra/projectSync_back/bin/Debug/net9.0/Microsoft.AspNetCore.JsonPatch.dll
 /home/esra/projectSync_back/bin/Debug/net9.0/Microsoft.AspNetCore.Mvc.NewtonsoftJson.dll
 /home/esra/projectSync_back/bin/Debug/net9.0/Newtonsoft.Json.Bson.dll
+/home/esra/projectSync_back/bin/Debug/net9.0/projectSync_back.staticwebassets.runtime.json
+/home/esra/projectSync_back/obj/Debug/net9.0/compressed/ec805l5w4w-5ipweew5fc.gz

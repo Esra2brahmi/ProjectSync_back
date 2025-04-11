@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using projectSync_back.Dtos.Task;
 using projectSync_back.Models;
 
 namespace projectSync_back.Interfaces
@@ -13,7 +14,7 @@ namespace projectSync_back.Interfaces
         Task<ProjectTask?> GetByIdAsync(int id);
         Task<List<ProjectTask>>GetByProjectIdAsync(int projectId);
         Task<ProjectTask> CreateAsync(ProjectTask taskModel);
-        Task<ProjectTask?> UpdateAsync(int id,ProjectTask taskModel);
+        Task<ProjectTask?> UpdateAsync(int id,UpdateTaskRequestDto taskDto);
         Task<ProjectTask?> DeleteAsync(int id);
     }
 }
