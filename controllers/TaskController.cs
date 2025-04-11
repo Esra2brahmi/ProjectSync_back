@@ -92,7 +92,7 @@ namespace projectSync_back.Controllers
             if(!ModelState.IsValid){
                 return BadRequest(ModelState);
             }
-            var taskModel=await _taskRepo.UpdateAsync(id,updateDto.ToTaskFromUpdateDto());
+            var taskModel=await _taskRepo.UpdateAsync(id,updateDto);
             if(taskModel == null){
                 return NotFound("task not found");
             }
@@ -115,5 +115,8 @@ namespace projectSync_back.Controllers
 
             return NoContent();
         }
+
+
+        
     }
 }

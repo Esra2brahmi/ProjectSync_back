@@ -3,6 +3,7 @@ using Microsoft.Extensions.Options;
 using projectSync_back.data;
 using projectSync_back.Interfaces;
 using projectSync_back.Repository;
+using Microsoft.AspNetCore.Http.Features;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddEndpointsApiExplorer();
@@ -37,8 +38,12 @@ builder.Services.AddDbContext<ApplicationDBContext>(options =>
 builder.Services.AddScoped<IProjectRepository,ProjectRepository>();
 builder.Services.AddScoped<ITaskRepository,ProjectTaskRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IAttachmentRepository, AttachmentRepository>();
 
-
+builder.Services.Configure<FormOptions>(options =>
+{
+    options.MultipartBodyLengthLimit = 104857600; // 100MB limit
+});
 
 var app = builder.Build();
 app.UseHttpsRedirection();

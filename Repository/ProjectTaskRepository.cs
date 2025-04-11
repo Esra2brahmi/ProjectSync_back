@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using projectSync_back.data;
 using projectSync_back.Interfaces;
 using projectSync_back.Models;
+using projectSync_back.Dtos.Task;
 
 namespace projectSync_back.Repository
 {
@@ -53,20 +54,19 @@ namespace projectSync_back.Repository
                                   .ToListAsync();
         }
 
-        public async Task<ProjectTask?> UpdateAsync(int id, ProjectTask taskModel)
+        public async Task<ProjectTask?> UpdateAsync(int id, UpdateTaskRequestDto taskDto)
         {
-            var existingTask=await _context.Tasks.FindAsync(id);
+             var existingTask=await _context.Tasks.FirstOrDefaultAsync(x=>x.Id==id);
             if(existingTask==null){
                 return null;
             }
-            existingTask.TaskName=taskModel.TaskName;
-            existingTask.TaskDescription=taskModel.TaskDescription;
-            existingTask.DueDate=taskModel.DueDate;
+            existingTask.TaskName=taskDto.TaskName;
+            existingTask.TaskDescription=taskDto.TaskDescription;
+            existingTask.DueDate = taskDto.DueDate.ToUniversalTime();
 
             await _context.SaveChangesAsync();
 
             return existingTask;
-
         }
     }
 }

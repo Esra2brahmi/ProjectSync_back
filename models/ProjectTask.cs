@@ -21,5 +21,6 @@ namespace projectSync_back.Models
         [Required(ErrorMessage = "Due date is required.")]
         [DataType(DataType.Date)]
         public DateTime DueDate { get; set; }
+        public List<Attachment> Attachments { get; set; } = new List<Attachment>();
     }
 }
