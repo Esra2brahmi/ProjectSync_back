@@ -777,7 +777,7 @@
           "runtimes/win7-x64/native/sni.dll": {
             "rid": "win7-x64",
             "assetType": "native",
-            "fileVersion": "0.0.0.0"
+            "fileVersion": "1.0.24628.0"
           }
         }
       },
@@ -786,7 +786,7 @@
           "runtimes/win7-x86/native/sni.dll": {
             "rid": "win7-x86",
             "assetType": "native",
-            "fileVersion": "0.0.0.0"
+            "fileVersion": "1.0.24628.0"
           }
         }
       },

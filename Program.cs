@@ -10,13 +10,14 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddControllers();
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("Everything", policy =>
+    options.AddPolicy("AllowFrontend", policy =>
     {
-        policy.AllowAnyOrigin()  // Allow any origin, for testing purposes
-              .AllowAnyHeader()  // Allow any headers
-              .AllowAnyMethod(); // Allow any HTTP method
+        policy.AllowAnyOrigin()
+              .AllowAnyHeader()
+              .AllowAnyMethod();
     });
 });
+
 
 builder.Services.AddControllers().AddNewtonsoftJson(options =>
 {
@@ -35,12 +36,21 @@ builder.Services.AddDbContext<ApplicationDBContext>(options =>
 
 builder.Services.AddScoped<IProjectRepository,ProjectRepository>();
 builder.Services.AddScoped<ITaskRepository,ProjectTaskRepository>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
 
 
 
 var app = builder.Build();
 app.UseHttpsRedirection();
-app.UseCors("Everything"); 
+app.UseRouting();
+
+// CORS middleware - ORDER IS IMPORTANT
+app.UseCors("AllowFrontend");
+
+app.UseAuthorization(); // If you're using authorization
+
+app.MapControllers();
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
@@ -50,7 +60,6 @@ if (app.Environment.IsDevelopment())
 }
 
 
-app.MapControllers();
 app.Run();
 
 

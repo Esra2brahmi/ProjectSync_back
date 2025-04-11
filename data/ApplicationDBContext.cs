@@ -17,6 +17,8 @@ namespace projectSync_back.data
 
         public DbSet<Project> Projects {get;set;}
         public DbSet<ProjectTask> Tasks { get; set; }
+        public DbSet<User> Users { get; set; }
+
 
     }
 }
