@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using projectSync_back.data;
@@ -11,9 +12,11 @@ using projectSync_back.data;
 namespace projectSync_back.Migrations
 {
     [DbContext(typeof(ApplicationDBContext))]
-    partial class ApplicationDBContextModelSnapshot : ModelSnapshot
+    [Migration("20250412204038_Department+ProjectSup+supervisor")]
+    partial class DepartmentProjectSupsupervisor
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -56,21 +59,6 @@ namespace projectSync_back.Migrations
                     b.HasIndex("TaskId");
 
                     b.ToTable("Attachments");
-                });
-
-            modelBuilder.Entity("projectSync_back.Models.DepSupervisor", b =>
-                {
-                    b.Property<int>("DepartmentId")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("SupervisorId")
-                        .HasColumnType("integer");
-
-                    b.HasKey("DepartmentId", "SupervisorId");
-
-                    b.HasIndex("SupervisorId");
-
-                    b.ToTable("DepSupervisors");
                 });
 
             modelBuilder.Entity("projectSync_back.Models.Department", b =>
@@ -202,10 +190,6 @@ namespace projectSync_back.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("AcademicTitle")
-                        .IsRequired()
-                        .HasColumnType("text");
-
                     b.Property<string>("Address")
                         .IsRequired()
                         .HasColumnType("text");
@@ -292,25 +276,6 @@ namespace projectSync_back.Migrations
                     b.Navigation("Task");
                 });
 
-            modelBuilder.Entity("projectSync_back.Models.DepSupervisor", b =>
-                {
-                    b.HasOne("projectSync_back.Models.Department", "Department")
-                        .WithMany("DepSupervisors")
-                        .HasForeignKey("DepartmentId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("projectSync_back.Models.Supervisor", "Supervisor")
-                        .WithMany("DepSupervisors")
-                        .HasForeignKey("SupervisorId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Department");
-
-                    b.Navigation("Supervisor");
-                });
-
             modelBuilder.Entity("projectSync_back.Models.ProjectSupervisor", b =>
                 {
                     b.HasOne("projectSync_back.Models.Project", "Project")
@@ -340,11 +305,6 @@ namespace projectSync_back.Migrations
                     b.Navigation("Project");
                 });
 
-            modelBuilder.Entity("projectSync_back.Models.Department", b =>
-                {
-                    b.Navigation("DepSupervisors");
-                });
-
             modelBuilder.Entity("projectSync_back.Models.Project", b =>
                 {
                     b.Navigation("ProjectSupervisors");
@@ -359,8 +319,6 @@ namespace projectSync_back.Migrations
 
             modelBuilder.Entity("projectSync_back.Models.Supervisor", b =>
                 {
-                    b.Navigation("DepSupervisors");
-
                     b.Navigation("ProjectSupervisors");
                 });
 #pragma warning restore 612, 618

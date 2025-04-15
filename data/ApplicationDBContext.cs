@@ -20,10 +20,40 @@ namespace projectSync_back.data
         public DbSet<User> Users { get; set; }
 
         public DbSet<Attachment> Attachments { get; set; }
+        public DbSet<Supervisor> Supervisors { get; set; }
+        public DbSet<ProjectSupervisor> ProjectSupervisors { get; set; }
+        public DbSet<Department> Departments { get; set; }
+        public DbSet<DepSupervisor> DepSupervisors { get; set; }
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<ProjectSupervisor>(x => x.HasKey(p => new {p.ProjectId,p.SupervisorId}));
+
+            modelBuilder.Entity<ProjectSupervisor>()
+              .HasOne(u => u.Project)
+              .WithMany(u => u.ProjectSupervisors)
+              .HasForeignKey(p => p.ProjectId);
+
+            modelBuilder.Entity<ProjectSupervisor>()
+              .HasOne(u => u.Supervisor)
+              .WithMany(u => u.ProjectSupervisors)
+              .HasForeignKey(p => p.SupervisorId);
+
+
+            modelBuilder.Entity<DepSupervisor>(x => x.HasKey(p => new {p.DepartmentId,p.SupervisorId}));
+
+            modelBuilder.Entity<DepSupervisor>()
+              .HasOne(u => u.Department)
+              .WithMany(u => u.DepSupervisors)
+              .HasForeignKey(p => p.DepartmentId);
+
+            modelBuilder.Entity<DepSupervisor>()
+              .HasOne(u => u.Supervisor)
+              .WithMany(u => u.DepSupervisors)
+              .HasForeignKey(p => p.SupervisorId);
 
             // Configure cascade delete for Project and ProjectTask relationship
             modelBuilder.Entity<ProjectTask>()

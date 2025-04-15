@@ -5,14 +5,14 @@
 namespace projectSync_back.Migrations
 {
     /// <inheritdoc />
-    public partial class AddDepartmentToProject : Migration
+    public partial class AcademicTitle : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AddColumn<string>(
-                name: "Department",
-                table: "Projects",
+                name: "AcademicTitle",
+                table: "Supervisors",
                 type: "text",
                 nullable: false,
                 defaultValue: "");
@@ -22,8 +22,8 @@ namespace projectSync_back.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropColumn(
-                name: "Department",
-                table: "Projects");
+                name: "AcademicTitle",
+                table: "Supervisors");
         }
     }
 }

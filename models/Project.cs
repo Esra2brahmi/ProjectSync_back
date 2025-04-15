@@ -36,6 +36,9 @@ namespace projectSync_back.Models
         public string Level { get; set; }
 
         public List<ProjectTask> ProjectTasks {get;set;} = new List<ProjectTask>();
+        public List<ProjectSupervisor> ProjectSupervisors {get;set;} = new List<ProjectSupervisor>();
+
+
 
         
         public string SupervisorFullName => $"{SupervisorFirstName} {SupervisorLastName}";

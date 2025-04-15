@@ -12,8 +12,8 @@ using projectSync_back.data;
 namespace projectSync_back.Migrations
 {
     [DbContext(typeof(ApplicationDBContext))]
-    [Migration("20250403120010_AddDepartmentToProject")]
-    partial class AddDepartmentToProject
+    [Migration("20250411105841_InitialMigration")]
+    partial class InitialMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,6 +24,42 @@ namespace projectSync_back.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
+
+            modelBuilder.Entity("projectSync_back.Models.Attachment", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("ContentType")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("FileName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<long>("FileSize")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("StoredFileName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int?>("TaskId")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime>("UploadDate")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TaskId");
+
+                    b.ToTable("Attachments");
+                });
 
             modelBuilder.Entity("projectSync_back.Models.Project", b =>
                 {
@@ -39,6 +75,10 @@ namespace projectSync_back.Migrations
 
                     b.Property<DateTime>("EndDate")
                         .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Level")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<string>("ProjectName")
                         .IsRequired()
@@ -98,6 +138,63 @@ namespace projectSync_back.Migrations
                     b.ToTable("Tasks");
                 });
 
+            modelBuilder.Entity("projectSync_back.Models.User", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Classe")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
+
+                    b.Property<string>("Department")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
+
+                    b.Property<string>("ProjectType")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
+
+                    b.Property<string>("SupervisorFullName")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
+
+                    b.Property<string>("UserFirstName")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
+
+                    b.Property<string>("UserLastName")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("projectSync_back.Models.Attachment", b =>
+                {
+                    b.HasOne("projectSync_back.Models.ProjectTask", "Task")
+                        .WithMany("Attachments")
+                        .HasForeignKey("TaskId");
+
+                    b.Navigation("Task");
+                });
+
             modelBuilder.Entity("projectSync_back.Models.ProjectTask", b =>
                 {
                     b.HasOne("projectSync_back.Models.Project", "Project")
@@ -111,6 +208,11 @@ namespace projectSync_back.Migrations
             modelBuilder.Entity("projectSync_back.Models.Project", b =>
                 {
                     b.Navigation("ProjectTasks");
+                });
+
+            modelBuilder.Entity("projectSync_back.Models.ProjectTask", b =>
+                {
+                    b.Navigation("Attachments");
                 });
 #pragma warning restore 612, 618
         }
