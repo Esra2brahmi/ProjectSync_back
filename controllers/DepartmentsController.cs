@@ -18,10 +18,10 @@ namespace projectSync_back.Controllers
 
         // GET: api/departments
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<DepartmentReadDto>>> GetAll()
+        public async Task<ActionResult<IEnumerable<DepartmentDto>>> GetAll()
         {
             var departments = await _departmentRepository.GetAllAsync();
-            var departmentDtos = departments.Select(d => new DepartmentReadDto
+            var departmentDtos = departments.Select(d => new DepartmentDto
             {
                 Id = d.Id,
                 Name = d.Name,
@@ -35,12 +35,12 @@ namespace projectSync_back.Controllers
 
         // GET: api/departments/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<DepartmentReadDto>> GetById(int id)
+        public async Task<ActionResult<DepartmentDto>> GetById(int id)
         {
             var department = await _departmentRepository.GetByIdAsync(id);
             if (department == null) return NotFound();
             
-            var departmentDto = new DepartmentReadDto
+            var departmentDto = new DepartmentDto
             {
                 Id = department.Id,
                 Name = department.Name,
@@ -54,7 +54,7 @@ namespace projectSync_back.Controllers
 
         // POST: api/departments
         [HttpPost]
-        public async Task<ActionResult<DepartmentReadDto>> Create([FromBody] DepartmentCreateDto createDto)
+        public async Task<ActionResult<DepartmentDto>> Create([FromBody] CreateDepartmentDto createDto)
         {
             var department = new Department
             {
@@ -66,7 +66,7 @@ namespace projectSync_back.Controllers
 
             var createdDept = await _departmentRepository.CreateAsync(department);
             
-            var readDto = new DepartmentReadDto
+            var readDto = new DepartmentDto
             {
                 Id = createdDept.Id,
                 Name = createdDept.Name,
@@ -80,7 +80,7 @@ namespace projectSync_back.Controllers
 
         // PUT: api/departments/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> Update(int id, [FromBody] DepartmentUpdateDto updateDto)
+        public async Task<IActionResult> Update(int id, [FromBody] UpdateDepartmentDto updateDto)
         {
             if (id != updateDto.Id) return BadRequest("ID mismatch");
 

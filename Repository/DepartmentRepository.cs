@@ -3,7 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
 using projectSync_back.data;
 using projectSync_back.Dtos.Department;
 using projectSync_back.Interfaces;
