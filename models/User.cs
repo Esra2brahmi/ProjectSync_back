@@ -5,7 +5,7 @@ namespace projectSync_back.Models
 {
     public class User 
     {
-        public int Id { get; set; } // Primary key
+        public int Id { get; set; } 
 
         [Required(ErrorMessage = "User firstName is required.")]
         [StringLength(100, ErrorMessage = "User firstName can't be longer than 100 characters.")]
