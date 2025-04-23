@@ -18,6 +18,8 @@ namespace projectSync_back.Mappers
                 Email =userModel.Email,
                 Classe =userModel.Classe,
                 ProjectType =userModel.ProjectType,
+                ProjectId = userModel.ProjectId
+
            
             };
             

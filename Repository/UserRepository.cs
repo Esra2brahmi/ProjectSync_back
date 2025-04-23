@@ -61,5 +61,42 @@ namespace projectSync_back.Repository
 
 
         }
+        public async Task<bool> AssignUserToProjectAsync(int userId, int projectId)
+    {
+        var user = await _context.Users
+            .FirstOrDefaultAsync(u => u.Id == userId);
+        
+        if (user == null)
+            return false;
 
-}}
+        user.ProjectId = projectId;
+        return await _context.SaveChangesAsync() > 0;
+    }
+
+    public async Task<bool> RemoveUserFromProjectAsync(int userId, int projectId)
+    {
+        var user = await _context.Users
+            .FirstOrDefaultAsync(u => u.Id == userId && u.ProjectId == projectId);
+            if (user == null)
+            return false;
+
+        user.ProjectId = null;
+        return await _context.SaveChangesAsync() > 0;
+    }
+
+    public async Task<IEnumerable<User>> GetUsersByProjectIdAsync(int projectId)
+    {
+        return await _context.Users
+            .Where(u => u.ProjectId == projectId)
+            .ToListAsync();
+    }
+
+    public async Task<bool> IsUserAssignedToProjectAsync(int userId, int projectId)
+    {
+        return await _context.Users
+            .AnyAsync(u => u.Id == userId && u.ProjectId == projectId);
+
+
+    }
+    }
+}

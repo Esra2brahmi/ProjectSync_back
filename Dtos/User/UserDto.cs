@@ -18,6 +18,7 @@ namespace projectSync_back.Dtos.User
         public string Email { get; set; } =string.Empty;
         public string Classe { get; set; } =string.Empty;
         public string ProjectType { get; set; } =string.Empty;
+        public int? ProjectId { get; set; }
 
 
 

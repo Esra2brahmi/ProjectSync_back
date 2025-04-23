@@ -72,5 +72,34 @@ namespace projectSync_back.Repository
 
             return existingProject;
         }
+        public async Task<bool> AddUserToProjectAsync(int projectId, User user)
+    {
+        var project = await _context.Projects
+            .Include(p => p.Users)
+            .FirstOrDefaultAsync(p => p.Id == projectId);
+
+        if (project == null)
+            return false;
+
+        project.Users.Add(user);
+        return await _context.SaveChangesAsync() > 0;
+    }
+
+    public async Task<bool> RemoveUserFromProjectAsync(int projectId, int userId)
+    {
+        var project = await _context.Projects
+            .Include(p => p.Users)
+            .FirstOrDefaultAsync(p => p.Id == projectId);
+
+        if (project == null)
+            return false;
+
+        var user = project.Users.FirstOrDefault(u => u.Id == userId);
+        if (user == null)
+            return false;
+
+        project.Users.Remove(user);
+        return await _context.SaveChangesAsync() > 0;
+    }
     }
 }
