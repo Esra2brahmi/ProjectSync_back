@@ -20,6 +20,9 @@ namespace projectSync_back.Models
         public int? ProjectId { get; set; }
         [ForeignKey("ProjectId")]
         public Project? Project { get; set; }
+        [InverseProperty("User")]
+        public List<ProjectTask> ProjectTasks {get;set;} = new List<ProjectTask>();
+
 
 
 

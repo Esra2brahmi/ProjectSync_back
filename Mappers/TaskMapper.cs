@@ -13,6 +13,7 @@ namespace projectSync_back.Mappers
                 TaskName =taskModel.TaskName,
                 TaskDescription = taskModel.TaskDescription,
                 DueDate = taskModel.DueDate,
+                UserId = taskModel.UserId
             };
             
         }

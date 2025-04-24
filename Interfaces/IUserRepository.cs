@@ -18,6 +18,8 @@ namespace projectSync_back.Interfaces
         Task<bool> RemoveUserFromProjectAsync(int userId, int projectId);
         Task<IEnumerable<User>> GetUsersByProjectIdAsync(int projectId);
         Task<bool> IsUserAssignedToProjectAsync(int userId, int projectId);
+        Task<User> GetUserByIdAsync(int userId);
+        Task<bool> AddTaskToUserAsync(int userId, ProjectTask task);
 
 
         

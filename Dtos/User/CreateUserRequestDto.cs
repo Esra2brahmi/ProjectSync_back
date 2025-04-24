@@ -20,6 +20,7 @@ namespace projectSync_back.Dtos.User
         public string ProjectType { get; set; } =string.Empty;
 
         public string SupervisorFullName { get; set; } =string.Empty;
+        
 
 
     }}

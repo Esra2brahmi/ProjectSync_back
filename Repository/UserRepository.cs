@@ -18,7 +18,7 @@ namespace projectSync_back.Repository
         }
 
          public async Task<List<User>> GetAllAsync(){
-            return await  _context.Users.ToListAsync();
+            return await  _context.Users.Include(u => u.ProjectTasks).ToListAsync();
         }
 
         public async Task<User> CreateAsync(User userModel){
@@ -28,7 +28,7 @@ namespace projectSync_back.Repository
         }
         public async Task<User?> GetByIdAsync(int id)
         {
-            return await _context.Users.FindAsync(id);
+            return await _context.Users.Include(u => u.ProjectTasks).FirstOrDefaultAsync(u => u.Id == id);
         }
 
         public async Task<User> UpdateAsync(int id , UpdateUserRequestDto updateUser)
@@ -98,5 +98,29 @@ namespace projectSync_back.Repository
 
 
     }
+     public async Task<User> GetUserByIdAsync(int userId)
+    {
+        return await _context.Users
+            .Include(u => u.ProjectTasks)
+            .FirstOrDefaultAsync(u => u.Id == userId);
+    }
+
+    public async Task<bool> AddTaskToUserAsync(int userId, ProjectTask task)
+    {
+        var user = await _context.Users
+            .Include(u => u.ProjectTasks)
+            .FirstOrDefaultAsync(u => u.Id == userId);
+
+        if (user == null)
+            return false;
+
+        if (!user.ProjectTasks.Any(t => t.Id == task.Id))
+        {
+            user.ProjectTasks.Add(task);
+        }
+
+        return await _context.SaveChangesAsync() > 0;
+    }
+
     }
 }

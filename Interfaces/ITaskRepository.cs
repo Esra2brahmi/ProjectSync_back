@@ -16,5 +16,8 @@ namespace projectSync_back.Interfaces
         Task<ProjectTask> CreateAsync(ProjectTask taskModel);
         Task<ProjectTask?> UpdateAsync(int id,UpdateTaskRequestDto taskDto);
         Task<ProjectTask?> DeleteAsync(int id);
+        Task<bool> AssignTaskToUserAsync(int taskId, int userId);
+        Task<ProjectTask> GetTaskByIdAsync(int taskId);
+        Task<bool> IsTaskAssignedAsync(int taskId);
     }
 }

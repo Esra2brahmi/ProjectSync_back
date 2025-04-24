@@ -68,5 +68,31 @@ namespace projectSync_back.Repository
 
             return existingTask;
         }
+
+        public async Task<ProjectTask> GetTaskByIdAsync(int taskId)
+    {
+        return await _context.Tasks
+            .Include(t => t.User)
+            .FirstOrDefaultAsync(t => t.Id == taskId);
+    }
+
+    public async Task<bool> IsTaskAssignedAsync(int taskId)
+    {
+        var task = await _context.Tasks
+            .FirstOrDefaultAsync(t => t.Id == taskId);
+        return task?.UserId != null;
+    }
+
+    public async Task<bool> AssignTaskToUserAsync(int taskId, int userId)
+    {
+        var task = await _context.Tasks
+            .FirstOrDefaultAsync(t => t.Id == taskId);
+
+        if (task == null)
+            return false;
+
+        task.UserId = userId;
+        return true;
+    }
     }
 }
