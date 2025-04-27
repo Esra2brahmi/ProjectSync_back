@@ -19,24 +19,15 @@ namespace projectSync_back.Models
 
         [Required(ErrorMessage = "End date is required.")]
         [Range(typeof(DateTime), "1/1/2022", "12/31/2099", ErrorMessage = "End date must be a valid date.")]
-        public DateTime EndDate { get; set; }
-
-        [Required(ErrorMessage = "Supervisor first name is required.")]
-        [StringLength(100, ErrorMessage = "Supervisor first name can't be longer than 100 characters.")]
+        public DateTime EndDate { get; set;}
         public required string SupervisorFirstName { get; set; }
-
-        [Required(ErrorMessage = "Supervisor last name is required.")]
-        [StringLength(100, ErrorMessage = "Supervisor last name can't be longer than 100 characters.")]
         public required string SupervisorLastName { get; set; }
-
-        [Required(ErrorMessage = "Department is required.")]
         public string Department { get; set; }
-
-        [Required(ErrorMessage = "Level is required.")]
         public string Level { get; set; }
 
         public List<ProjectTask> ProjectTasks {get;set;} = new List<ProjectTask>();
         public List<ProjectSupervisor> ProjectSupervisors {get;set;} = new List<ProjectSupervisor>();
+        public List<User> Users { get; set; } = new List<User>();
 
 
 

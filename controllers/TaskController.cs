@@ -4,6 +4,7 @@ using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using projectSync_back.data;
 using projectSync_back.Dtos.Task;
+using projectSync_back.Dtos.User;
 using projectSync_back.Models;
 using projectSync_back.Mappers;
 using Microsoft.EntityFrameworkCore;
@@ -17,10 +18,12 @@ namespace projectSync_back.Controllers
     {
         private readonly ITaskRepository _taskRepo;
         private readonly IProjectRepository _projectRepo;
-        public TaskController(ITaskRepository taskRepo,IProjectRepository projectRepo)
+        private readonly IUserRepository _userRepository;
+        public TaskController(ITaskRepository taskRepo,IProjectRepository projectRepo,IUserRepository userRepository)
         {
             _taskRepo = taskRepo;
             _projectRepo=projectRepo;
+            _userRepository = userRepository;
         }
 
         [HttpGet]
@@ -115,6 +118,65 @@ namespace projectSync_back.Controllers
 
             return NoContent();
         }
+
+        [HttpPut("assign-student")]
+    public async Task<ActionResult> AssignTaskToStudent([FromBody] AssignTaskToUserDto dto)
+    {
+        // Check if task exists and is not already assigned
+        var task = await _taskRepo.GetTaskByIdAsync(dto.TaskId);
+        if (task == null)
+            return NotFound("Task not found");
+
+        if (await _taskRepo.IsTaskAssignedAsync(dto.TaskId))
+            return BadRequest("Task is already assigned to a student");
+
+        // Check if user exists
+        var user = await _userRepository.GetUserByIdAsync(dto.UserId);
+        if (user == null)
+            return NotFound("Student not found");
+
+        // Assign task to user
+        var assignResult = await _taskRepo.AssignTaskToUserAsync(dto.TaskId, dto.UserId);
+        if (!assignResult)
+            return BadRequest("Failed to assign task to student");
+
+        // Add task to user's task list
+        var addToUserResult = await _userRepository.AddTaskToUserAsync(dto.UserId, task);
+        if (!addToUserResult)
+            return BadRequest("Failed to add task to student's task list");
+
+        return Ok();
+    }
+
+    [HttpGet("{id:int}/student")] 
+        public async Task<ActionResult<UserDto>> GetStudentForTask([FromRoute] int id)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            // Get the task, including the related User
+            // GetTaskByIdAsync already includes the User thanks to the .Include in the repo
+            var task = await _taskRepo.GetTaskByIdAsync(id);
+
+            if (task == null)
+            {
+                return NotFound("Task not found");
+            }
+
+            // Check if a student (User) is actually assigned
+            if (task.User == null)
+            {
+                return NotFound("No student assigned to this task");
+            }
+
+            var userDto = task.User.ToUserDto(); 
+
+            return Ok(userDto);
+        }
+
+
 
 
         

@@ -15,5 +15,7 @@ namespace projectSync_back.Interfaces
         Task<Project?> UpdateAsync(int id,UpdateProjectRequestDto projectDto);
         Task<Project?> DeleteAsync(int id);
         Task<bool> ProjectExists(int id);
+        Task<bool> AddUserToProjectAsync(int projectId, User user);
+        Task<bool> RemoveUserFromProjectAsync(int projectId, int userId);
     }
 }
