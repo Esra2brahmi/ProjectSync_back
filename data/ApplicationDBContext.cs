@@ -18,12 +18,15 @@ namespace projectSync_back.data
         public DbSet<Project> Projects {get;set;}
         public DbSet<ProjectTask> Tasks { get; set; }
         public DbSet<User> Users { get; set; }
-
         public DbSet<Attachment> Attachments { get; set; }
         public DbSet<Supervisor> Supervisors { get; set; }
         public DbSet<ProjectSupervisor> ProjectSupervisors { get; set; }
         public DbSet<Department> Departments { get; set; }
         public DbSet<DepSupervisor> DepSupervisors { get; set; }
+        public DbSet<DepJuryMember> DepJuryMembers { get; set; }
+
+        public DbSet<JuryMember> JuryMembers { get; set; }
+
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -61,7 +64,21 @@ namespace projectSync_back.data
                 .WithMany(p => p.ProjectTasks)
                 .HasForeignKey(t => t.ProjectId)
                 .OnDelete(DeleteBehavior.Cascade);
-        }
+
+            modelBuilder.Entity<DepJuryMember>(x => x.HasKey(p => new {p.DepartmentId,p.JuryMemberId}));
+
+            modelBuilder.Entity<DepJuryMember>()
+              .HasOne(u => u.Department)
+              .WithMany(u => u.DepJuryMembers)
+              .HasForeignKey(p => p.DepartmentId);
+
+            modelBuilder.Entity<DepJuryMember>()
+              .HasOne(u => u.JuryMember)
+              .WithMany(u => u.DepJuryMembers)
+              .HasForeignKey(p => p.JuryMemberId);
+
+                
+                        }
 
     }
 }

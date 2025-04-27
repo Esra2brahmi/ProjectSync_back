@@ -13,7 +13,7 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowFrontend", policy =>
     {
-        policy.AllowAnyOrigin()
+        policy.WithOrigins("http://localhost:4100")
               .AllowAnyHeader()
               .AllowAnyMethod();
     });
@@ -42,6 +42,8 @@ builder.Services.AddScoped<IAttachmentRepository, AttachmentRepository>();
 builder.Services.AddScoped<ISupervisorRepository, SupervisorRepository>();
 builder.Services.AddScoped<IDepartmentRepository, DepartmentRepository>();
 builder.Services.AddScoped<IProjectSupervisorRepository, ProjectSupervisorRepository>();
+builder.Services.AddScoped<IJuryMemberRepository, JuryMemberRepository>();
+
 
 builder.Services.Configure<FormOptions>(options =>
 {
@@ -51,8 +53,6 @@ builder.Services.Configure<FormOptions>(options =>
 var app = builder.Build();
 app.UseHttpsRedirection();
 app.UseRouting();
-
-// CORS middleware - ORDER IS IMPORTANT
 app.UseCors("AllowFrontend");
 
 app.UseAuthorization(); // If you're using authorization

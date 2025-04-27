@@ -13,6 +13,8 @@ namespace projectSync_back.Models
         [EmailAddress(ErrorMessage = "Please enter a valid email address.")]
         public string Email { get; set; } =string.Empty;
         public List<DepSupervisor> DepSupervisors {get;set;} = new List<DepSupervisor>();
+        public List<DepJuryMember > DepJuryMembers {get;set;} = new List<DepJuryMember >();
+
 
 
     }
