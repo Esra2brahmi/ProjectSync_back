@@ -20,6 +20,7 @@ namespace projectSync_back.Mappers
                 Level =projectModel.Level,
                 StartDate =projectModel.StartDate,
                 EndDate =projectModel.EndDate,
+                ProjectReference =projectModel.ProjectReference,
                 Tasks=projectModel.ProjectTasks.Select(c=>c.ToTaskDto()).ToList()
             };
             
@@ -33,7 +34,8 @@ namespace projectSync_back.Mappers
                 Department =projectDto.Department,
                 Level =projectDto.Level,
                 StartDate =projectDto.StartDate,
-                EndDate =projectDto.EndDate
+                EndDate =projectDto.EndDate,
+                ProjectReference =projectDto.ProjectReference
             };
             
         }

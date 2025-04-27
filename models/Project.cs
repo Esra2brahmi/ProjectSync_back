@@ -24,7 +24,7 @@ namespace projectSync_back.Models
         public required string SupervisorLastName { get; set; }
         public string Department { get; set; }
         public string Level { get; set; }
-
+        public string ProjectReference { get; set; } = string.Empty; 
         public List<ProjectTask> ProjectTasks {get;set;} = new List<ProjectTask>();
         public List<ProjectSupervisor> ProjectSupervisors {get;set;} = new List<ProjectSupervisor>();
         public List<User> Users { get; set; } = new List<User>();
