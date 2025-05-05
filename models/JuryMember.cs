@@ -37,6 +37,8 @@ namespace projectSync_back.Models
         public string AcademicTitle { get; set; } =string.Empty;
 
         public List<DepJuryMember> DepJuryMembers {get;set;} = new List<DepJuryMember >();
+        // report
+        public List<Report> Reports { get; set; } = new List<Report>();
 
 
 

@@ -28,6 +28,8 @@ namespace projectSync_back.Models
         public List<ProjectTask> ProjectTasks {get;set;} = new List<ProjectTask>();
         public List<ProjectSupervisor> ProjectSupervisors {get;set;} = new List<ProjectSupervisor>();
         public List<User> Users { get; set; } = new List<User>();
+        // Report
+        public Report Report { get; set; }
 
 
 

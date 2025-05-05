@@ -24,6 +24,7 @@ namespace projectSync_back.data
         public DbSet<Department> Departments { get; set; }
         public DbSet<DepSupervisor> DepSupervisors { get; set; }
         public DbSet<DepJuryMember> DepJuryMembers { get; set; }
+        public DbSet<Report> Reports { get; set; }
 
         public DbSet<JuryMember> JuryMembers { get; set; }
 
@@ -76,6 +77,20 @@ namespace projectSync_back.data
               .HasOne(u => u.JuryMember)
               .WithMany(u => u.DepJuryMembers)
               .HasForeignKey(p => p.JuryMemberId);
+
+            modelBuilder.Entity<Project>()
+                .HasIndex(p => p.ProjectReference)
+                .IsUnique();
+            
+            modelBuilder.Entity<Report>()
+                .HasOne(r => r.Project)
+                .WithOne(p => p.Report)
+                .HasForeignKey<Report>(r => r.ProjectId);
+
+            modelBuilder.Entity<Report>()
+                .HasOne(r => r.JuryMember)
+                .WithMany(j => j.Reports)
+                .HasForeignKey(r => r.JuryMemberId);
 
                 
                         }

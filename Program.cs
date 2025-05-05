@@ -43,7 +43,7 @@ builder.Services.AddScoped<ISupervisorRepository, SupervisorRepository>();
 builder.Services.AddScoped<IDepartmentRepository, DepartmentRepository>();
 builder.Services.AddScoped<IProjectSupervisorRepository, ProjectSupervisorRepository>();
 builder.Services.AddScoped<IJuryMemberRepository, JuryMemberRepository>();
-
+builder.Services.AddScoped<IReportRepository, ReportRepository>();
 
 builder.Services.Configure<FormOptions>(options =>
 {
